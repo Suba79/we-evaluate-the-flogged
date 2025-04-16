@@ -1,8 +1,3 @@
-password = input("Введите пароль: ")
-
-SCORE = 0
-
-
 def is_very_long(password):
     return len(password) >= 12
 
@@ -12,27 +7,33 @@ def found_digit(password):
 
 
 def has_upper_letters(password):
-    return any(up_letters.isupper() for up_letters in password)
+    return any(char.isupper() for char in password)
 
 
 def has_lower_letters(password):
-    return any(low_letters.islower() for low_letters in password)
+    return any(char.islower() for char in password)
 
 
 def has_symbols(password):
-    return any(not symbols.isalnum() for symbols in password)
+    return any(not char.isalnum() for char in password)
 
 
-checks = [
-    is_very_long,
-    found_digit,
-    has_upper_letters,
-    has_lower_letters,
-    has_symbols
-]
+def calculate_password_score(password: str):
+    checks = [
+        is_very_long,
+        found_digit,
+        has_upper_letters,
+        has_lower_letters,
+        has_symbols
+    ]
+    return sum(2 for check in checks if check(password))
 
-for check_func in checks:
-    if check_func(password):
-        SCORE += 2
 
-print(f"Рейтинг пароля: {SCORE}")
+def main():
+    password = input("Введите пароль: ")
+    score = calculate_password_score(password)
+    print(f"Рейтинг пароля: {score}")
+
+
+if __name__ == "__main__":
+    main()
